@@ -40,6 +40,9 @@ public class DrawImage extends HttpServlet {
 		resp.setHeader("content-type", "image/jpeg");
 
 		ImageIO.write(image, "jpg", resp.getOutputStream());
+		
+		req.getSession().setAttribute("checkNum", checkNum);
+		System.out.println(checkNum);
 
 	}
 
@@ -113,10 +116,11 @@ public class DrawImage extends HttpServlet {
 
 			int degree = rd.nextInt() % 30;
 			char ch = str.charAt(index);
-			g.rotate(degree * Math.PI / 180, 30 * (i + 1), 20);
+			//g.rotate(degree * Math.PI / 180);
+			g.rotate(degree * Math.PI / 180, 30 * i, 20);
 			g.drawString(String.valueOf(ch), 30 * (i), 20);
-
-			g.rotate(-degree * Math.PI / 180, 30 * (i + 1), 20);
+			//g.rotate(-degree * Math.PI / 180);
+			g.rotate(-degree * Math.PI / 180, 30 * i, 20);
 
 			sb.append(ch);
 		}
@@ -150,7 +154,7 @@ public class DrawImage extends HttpServlet {
 		Color[] colors = { Color.BLACK, Color.BLUE, Color.CYAN, Color.GREEN };
 		int index = rd.nextInt(4);
 
-		System.out.println(index);
+		
 		return colors[index];
 	}
 

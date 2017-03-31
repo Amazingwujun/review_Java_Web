@@ -3,6 +3,7 @@ package com.cnblogs.lesson_eight;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,17 +33,21 @@ public class ResponseDemo03 extends HttpServlet {
 		resp.setDateHeader("expires", -1);
 		resp.setHeader("Cache-control", "no-cache");
 		resp.setHeader("pragma", "no-Cache");
+		//BufferedImage img = ImageIO.read(new File("C:\\Users\\Administrator\\Desktop\\3.jpg"));
 		//在内存中建立一个图片
 		BufferedImage img = new BufferedImage(80, 20, BufferedImage.TYPE_INT_RGB);
 		//获取图片
+		
 		Graphics2D g2d = img.createGraphics();
-		//设置图片的背景颜色并填充
+		g2d.rotate(45*Math.PI/180,10,10);
 		g2d.setColor(Color.white);
 		g2d.fillRect(0, 0, 80, 20);
 		//设置图片上的字体
 		g2d.setColor(getRandomColor());
 		g2d.setFont(new Font(null, Font.BOLD, 20));
-		g2d.drawString(getRandomNumber(), 10, 15);
+		g2d.drawString(getRandomNumber(), 10, 17);
+		
+		
 		
 		File image = new File("d:/checkNum.jpg");
 		ImageIO.write(img, "jpg", resp.getOutputStream());
@@ -54,7 +60,7 @@ public class ResponseDemo03 extends HttpServlet {
 		Random rd = new Random();
 		int index= rd.nextInt(4);
 		
-		System.out.println(index);
+		
 		return colors[index];
 	}
 
