@@ -2,6 +2,7 @@ package com.cnblogs.lesson_ten;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -13,11 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/servlet/RequestDemo03")
 public class RequestDemo03 extends HttpServlet {
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		doPost(req, resp);
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf8");
-
+		String s = req.getParameter("username");
+		System.out.println(s);
 		PrintWriter out = resp.getWriter();
 		// Enumeration<String> params = req.getParameterNames();
 		Map<String, String[]> params = req.getParameterMap();

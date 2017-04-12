@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=utf8"%>
+<%@ page language="java" contentType="text/html; charset=gbk"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,35 +12,35 @@
 <body>
 	<div>
 		<fieldset style="width: 500px;">
-			<legend>html的表单元素</legend>
-			<form action="${pageContext.request.contextPath }/servlet/RequestDemo03" method="post">
-				编&nbsp;&nbsp;号(文本框):
+			<legend>html�ı���Ԫ��</legend>
+			<form action="${pageContext.request.contextPath }/servlet/RequestDemo03" method="get">
+				��&nbsp;&nbsp;��(�ı���):
 				<input id ="uid" type="text" name="userid" value="NO." onfocus="clsStr(this)"/><br/>
-				用户名（文本框）:
-				<input id="name" type="text" name="username" value="请输入用户名" onfocus="clsStr(this)" /><br/>
-				密&nbsp;&nbsp;码(密码框)：
-				<input id="psw" type="password" name="password" value="请输入秘密" onfocus="clsStr(this)"/><br/>
-				性别（单选框）：
-				<input type="radio"  name="sex" value="男" checked="checked"/>男
-				<input type="radio" name="sex"	value="女"/>女<br/>
-				部&nbsp;&nbsp;门（下拉框）：
+				�û������ı���:
+				<input id="name" type="text" name="username" value="�������û���" onfocus="clsStr(this)" /><br/>
+				��&nbsp;&nbsp;��(�����)��
+				<input id="psw" type="password" name="password" value="����������" onfocus="clsStr(this)"/><br/>
+				�Ա𣨵�ѡ�򣩣�
+				<input type="radio"  name="sex" value="��" checked="checked"/>��
+				<input type="radio" name="sex"	value="Ů"/>Ů<br/>
+				��&nbsp;&nbsp;�ţ������򣩣�
 				<select name="dept">
-					<option value="技术部" >技术部</option>
-					<option value="销售部" >销售部</option>
-					<option value="财务部" >财务部</option>
+					<option value="������" >������</option>
+					<option value="���۲�" >���۲�</option>
+					<option value="����" >����</option>
 				</select><br/>
-				兴&nbsp;&nbsp;趣（复选框）：
-				<input type="checkbox" name="inte" value="小说" />小说
-				<input type="checkbox" name="inte" value="游戏"/>游戏
-				<input type="checkbox" name="inte" value="电影"/>电影
-				<input type="checkbox" name="inte" value="跑步"/>跑步
+				��&nbsp;&nbsp;Ȥ����ѡ�򣩣�
+				<input type="checkbox" name="inte" value="С˵" />С˵
+				<input type="checkbox" name="inte" value="��Ϸ"/>��Ϸ
+				<input type="checkbox" name="inte" value="��Ӱ"/>��Ӱ
+				<input type="checkbox" name="inte" value="�ܲ�"/>�ܲ�
 				<br/>
-				说&nbsp;&nbsp;明（文本域）：
+				˵&nbsp;&nbsp;�����ı��򣩣�
 				<textarea name="note" rows="5" cols="35"></textarea>
-				<!-- 隐藏表单 -->
+				<!-- ���ر��� -->
 				<input type="hidden" name="hiddenField" value="hiddenValue" />
-				<input type="submit" value="提交"/>
-				<input type="reset" value="重置"  />
+				<input type="submit" value="�ύ"/>
+				<input type="reset" value="����"  />
 				
 				
 			</form>
