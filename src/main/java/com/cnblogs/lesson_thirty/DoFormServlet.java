@@ -35,7 +35,9 @@ public class DoFormServlet extends HttpServlet {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
+		
+		
+		//wo hen weinan
 		if (Token == null || !Token.equals((String) req.getParameter("Token"))) {
 			System.err.println("请勿重复提交请求");
 			out.write("数据提交错误");
@@ -43,7 +45,6 @@ public class DoFormServlet extends HttpServlet {
 		}
 
 		System.out.println(name);
-	
 	}
 
 	@Override
