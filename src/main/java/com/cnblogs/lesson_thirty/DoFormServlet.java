@@ -43,7 +43,6 @@ public class DoFormServlet extends HttpServlet {
 			return;
 		}
 
-		System.out.println(name);
 	}
 
 	@Override
