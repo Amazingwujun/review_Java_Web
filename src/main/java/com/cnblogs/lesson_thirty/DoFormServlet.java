@@ -22,12 +22,13 @@ public class DoFormServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setHeader("content-type", "text/html;charset=UTF-8");
 		req.setCharacterEncoding("utf8");
-		
+		String name = req.getParameter("username");
+		HttpSession session = req.getSession();
 
-		PrintWriter out = resp.getWriter();
-		
-		System.out.println();
+		String Token = (String) session.getAttribute("TokenNum");
+		session.removeAttribute("TokenNum");
 
+		
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
