@@ -31,7 +31,7 @@ public class DoFormServlet extends HttpServlet {
 		PrintWriter out = resp.getWriter();
 
 		
-
+		System.out.println();
 	}
 
 	@Override
