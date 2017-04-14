@@ -28,7 +28,7 @@ public class DoFormServlet extends HttpServlet {
 		String Token = (String) session.getAttribute("TokenNum");
 		session.removeAttribute("TokenNum");
 
-		PrintWriter out = resp.getWriter();
+		PrintWriter out = resp.getWriter();/fdasjkfhdkjs
 		
 		try {
 			Thread.sleep(2000);
