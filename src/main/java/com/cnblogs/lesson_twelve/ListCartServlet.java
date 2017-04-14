@@ -18,6 +18,10 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet("/servlet/ListCartServlet")
 public class ListCartServlet extends HttpServlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
 
 	@Override

@@ -21,6 +21,14 @@ public class ServletForCheck extends HttpServlet{
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf8");
 		String ck = req.getParameter("checknum");
+		
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		System.out.println("伍俊".equals(ck));
 		String checknum = (String) req.getSession().getAttribute("checkNum");
 		
