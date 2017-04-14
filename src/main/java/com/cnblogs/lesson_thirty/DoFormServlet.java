@@ -30,18 +30,7 @@ public class DoFormServlet extends HttpServlet {
 
 		PrintWriter out = resp.getWriter();
 
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		if (Token == null || !Token.equals((String) req.getParameter("Token"))) {
-			System.err.println("请勿重复提交请求");
-			out.write("数据提交错误");
-			return;
-		}
+		
 
 		System.out.println(name);
 	}
