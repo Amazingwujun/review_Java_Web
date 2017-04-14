@@ -24,6 +24,7 @@ public class SessionDemo2 extends HttpServlet {
 		HttpSession session = req.getSession();
 
 		session.setAttribute("TokenNum", Token);
+		//annotation change mark
 		req.getRequestDispatcher("/form.jsp").forward(req, resp);
 	}
 
