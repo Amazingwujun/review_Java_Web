@@ -2,9 +2,9 @@
 <%@ taglib uri="/jun" prefix="c" %>
 <%
 String path = request.getContextPath();
-request.setAttribute("path", path);
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -12,9 +12,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>??</title>       
  </head>
  <body>
- 	<c:if test="false">
-		<a href="${path }/blockReference.jsp">站内访问</a> 	
- 	</c:if>
-	
+ 
+ 	<c:choose>
+ 		<c:when test="${!user==null }">
+ 			用户为空
+ 		</c:when>
+ 		<c:otherwise>
+ 			用户不为空
+ 		</c:otherwise>
+ 	</c:choose>
+ 	
  </body>
 </html>

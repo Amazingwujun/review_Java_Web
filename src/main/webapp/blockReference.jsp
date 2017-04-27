@@ -1,10 +1,10 @@
 <%@ page language="Java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="/jun" prefix="c" %>
+<%@ taglib uri="/jun" prefix="jun"%>
 <%
 String path = request.getContextPath();
-request.setAttribute("path", path);
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+<jun:refer site="http://localhost/review_Java_Web/" page="/index.jsp"/>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -12,9 +12,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>??</title>       
  </head>
  <body>
- 	<c:if test="false">
-		<a href="${path }/blockReference.jsp">站内访问</a> 	
- 	</c:if>
-	
+ <%=request.getHeader("referer") %>
  </body>
 </html>
