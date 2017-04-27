@@ -10,7 +10,10 @@
 		<input type="hidden" name="Token" value="${TokenNum }"/>
 		<input type="submit" value="提交" id="submit" onclick="denyDoubleClick()"/>
 	</form>
-	
+	<%
+		String s = (String)pageContext.findAttribute("TokenNum");
+		System.out.println(s);
+	%>
 	
 	<script type="text/javascript">
 		function denyDoubleClick(){
