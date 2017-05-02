@@ -58,7 +58,6 @@ public class JDBCFirstDemo {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			if (conn != null) {
