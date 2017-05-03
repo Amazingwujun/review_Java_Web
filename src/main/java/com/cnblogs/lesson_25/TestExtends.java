@@ -13,7 +13,6 @@ public class TestExtends extends ChooseTag{
 		ChooseTag tag = new ChooseTag();
 		ChooseTag sub = new TestExtends();
 	
-		Map<K, V>
 		
 		System.out.println(tag instanceof TestExtends);
 	}
