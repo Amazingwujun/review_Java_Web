@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.sql.DataSource;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class JdbcUtils_C3P0 {
@@ -17,6 +19,10 @@ public class JdbcUtils_C3P0 {
 
 	public static Connection getConn() throws SQLException {
 		return ds.getConnection();
+	}
+	
+	public static DataSource getDS(){
+		return ds;
 	}
 
 	public static void releaseRS(Connection conn, ResultSet rs, Statement stmt) {
