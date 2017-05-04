@@ -5,26 +5,31 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
-
-public class JdbcUtils_C3P0 {
-
-	private static ComboPooledDataSource ds = null;
-
-	static {
-		ds = new ComboPooledDataSource("mysql");
+public class JdbcUtils_JNDI {
+	private static DataSource ds;
+	
+	static{
+		
+		try {		
+			Context initCtx = new InitialContext();
+			Context evnCtx = (Context) initCtx.lookup("java:comp/env");
+			
+			ds = (DataSource) evnCtx.lookup("jdbc/datasource");
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
 	}
-
-	public static Connection getConn() throws SQLException {
+	
+	public static Connection getConn() throws SQLException{
 		return ds.getConnection();
 	}
 	
-	public static DataSource getDS(){
-		return ds;
-	}
-
 	public static void releaseRS(Connection conn, ResultSet rs, Statement stmt) {
 		if (conn != null) {
 			try {
@@ -52,6 +57,6 @@ public class JdbcUtils_C3P0 {
 				e.printStackTrace();
 			}
 		}
+
 	}
-	
 }
