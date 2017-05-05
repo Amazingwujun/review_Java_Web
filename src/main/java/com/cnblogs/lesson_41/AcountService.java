@@ -1,52 +1,57 @@
 package com.cnblogs.lesson_41;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.junit.Test;
 
 import com.cnblogs.lesson_40.Acount;
-import com.cnblogs.lesson_40.JdbcUtils;
 
 public class AcountService {
 	
 	@Test
-	public void testTransfer(){
+	public void transferTest(){
 		
-		new AcountService().Transfer(1, 2, 100);
-		
+		try {
+			transfer(1, 2, 100);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public void Transfer(int source, int target, float money) {
-		Connection conn = null;
-
+	/**
+	 * @Method: transfer
+	 * @Description: 这个方法用来处理两个用户之间的转账业务
+	 * @author: 俊
+	 * 
+	 * @param: source
+	 * @param: target
+	 * @param: money
+	 * 
+	 * @throws SQLException
+	 */
+	public void transfer(int source, int target, float money) throws SQLException {
 		try {
-			conn = JdbcUtils.getConn();
-			conn.setAutoCommit(false);
+			JdbcUtils_thread.startTransaction();
+			
+			AcountDao adao = new AcountDao();
 
-			AcountDao adao = new AcountDao(conn);
-
-			Acount scr = adao.find(source);
+			Acount src = adao.find(source);
 			Acount tar = adao.find(target);
-			scr.setMoney(scr.getMoney() - money);
+
+			src.setMoney(src.getMoney() - money);
 			tar.setMoney(tar.getMoney() + money);
-
-			adao.update(scr);
-			int i= 1/0;
+			
+			adao.update(src);
+			int i=1/0;
 			adao.update(tar);
-
-			conn.commit();
+			
+			JdbcUtils_thread.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
-			try {
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		} finally {
-			JdbcUtils.releaseRS(conn, null, null);
+			JdbcUtils_thread.rollback();
+		} finally{
+			JdbcUtils_thread.close();
 		}
-
 	}
-
 }

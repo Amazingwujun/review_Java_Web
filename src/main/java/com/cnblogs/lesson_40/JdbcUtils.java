@@ -15,6 +15,8 @@ public class JdbcUtils {
 	private static String password;
 	private static String url;
 	private static String driver;
+	
+	private ThreadLocal<Connection> treadConnection = new ThreadLocal<>();
 
 	static {
 		Properties prop = new Properties();

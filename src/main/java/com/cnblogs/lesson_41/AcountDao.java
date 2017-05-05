@@ -13,18 +13,13 @@ import com.cnblogs.lesson_40.BeanHandle;
 import com.cnblogs.lesson_40.JdbcUtils;
 
 public class AcountDao {
-	private Connection conn;
-
-	public AcountDao(Connection conn) {
-		this.conn = conn;
-	}
-
+	
 	public void update(Acount acount) throws SQLException {
 		QueryRunner qr = new QueryRunner();
 		String sql = "update Acount set money=? where id=?";
 
 		Object[] args = { acount.getMoney(), acount.getId() };
-		qr.update(conn, sql, args);
+		qr.update(JdbcUtils_thread.getConn(), sql, args);
 	}
 
 	public Acount find(int id) throws SQLException {
@@ -32,7 +27,7 @@ public class AcountDao {
 		String sql = "select * from Acount where id=?";
 
 		Object[] args = { id };
-		return qr.query(conn, sql, new BeanHandler<Acount>(Acount.class), args);
+		return qr.query(JdbcUtils_thread.getConn(), sql, new BeanHandler<Acount>(Acount.class), args);
 	}
 
 	@Deprecated
