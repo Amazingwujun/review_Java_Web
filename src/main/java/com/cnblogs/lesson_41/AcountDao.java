@@ -4,27 +4,27 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
-import org.junit.Test;
-
 import com.cnblogs.lesson_40.Acount;
-import com.cnblogs.lesson_40.BeanHandle;
 import com.cnblogs.lesson_40.JdbcUtils;
 
 public class AcountDao {
-	private Connection conn;
-
-	public AcountDao(Connection conn) {
-		this.conn = conn;
-	}
+	/*
+	 * private Connection conn;
+	 * 
+	 * public AcountDao(Connection conn) { this.conn = conn; }
+	 */
 
 	public void update(Acount acount) throws SQLException {
 		QueryRunner qr = new QueryRunner();
 		String sql = "update Acount set money=? where id=?";
 
+		if (acount.getMoney() < 0) {
+			throw new RuntimeException("您的余额不足");
+		}
+
 		Object[] args = { acount.getMoney(), acount.getId() };
-		qr.update(conn, sql, args);
+		qr.update(ContextConn.getInstance().get(), sql, args);
 	}
 
 	public Acount find(int id) throws SQLException {
@@ -32,7 +32,7 @@ public class AcountDao {
 		String sql = "select * from Acount where id=?";
 
 		Object[] args = { id };
-		return qr.query(conn, sql, new BeanHandler<Acount>(Acount.class), args);
+		return qr.query(ContextConn.getInstance().get(), sql, new BeanHandler<Acount>(Acount.class), args);
 	}
 
 	@Deprecated
