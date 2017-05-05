@@ -23,5 +23,6 @@ public class ContextConn {
 
 	public void remove() {
 		threadLocal.remove();
+		System.out.println(threadLocal.get());
 	}
 }
