@@ -14,7 +14,7 @@ public class JdbcUtils_C3P0 {
 	private static ComboPooledDataSource ds = null;
 
 	static {
-		ds = new ComboPooledDataSource("mysql");
+		ds = new ComboPooledDataSource("MySQL");
 	}
 
 	public static Connection getConn() throws SQLException {

@@ -7,51 +7,35 @@ import org.junit.Test;
 import com.cnblogs.lesson_40.Acount;
 
 public class AcountService {
-	
+
 	@Test
-	public void transferTest(){
-		
+	public void testTransfer() {
 		try {
-			transfer(1, 2, 100);
+			new AcountService().Transfer(1, 1, 300);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * @Method: transfer
-	 * @Description: 这个方法用来处理两个用户之间的转账业务
-	 * @author: 俊
-	 * 
-	 * @param: source
-	 * @param: target
-	 * @param: money
-	 * 
-	 * @throws SQLException
-	 */
-	public void transfer(int source, int target, float money) throws SQLException {
-		try {
-			JdbcUtils_thread.startTransaction();
-			
-			AcountDao adao = new AcountDao();
-
-			Acount src = adao.find(source);
-			Acount tar = adao.find(target);
-
-			src.setMoney(src.getMoney() - money);
-			tar.setMoney(tar.getMoney() + money);
-			
-			adao.update(src);
-			int i=1/0;
-			adao.update(tar);
-			
-			JdbcUtils_thread.commit();
-		} catch (Exception e) {
-			e.printStackTrace();
-			JdbcUtils_thread.rollback();
-		} finally{
-			JdbcUtils_thread.close();
+	public void Transfer(int source, int target, float money) throws SQLException {
+		if (source == target) {
+			throw new RuntimeException("不支持同账户转账");
 		}
+
+		AcountDao adao = new AcountDao();
+
+		// 查找指定用户并转账
+		Acount scr = adao.find(source);
+		Acount tar = adao.find(target);
+		scr.setMoney(scr.getMoney() - money);
+		tar.setMoney(tar.getMoney() + money);
+
+		// 开始转账
+		adao.update(scr);
+		// 模拟异常
+		// int i = 1 / 0;
+		adao.update(tar);
 	}
+
 }
