@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cnblogs.lesson_39.JdbcUtils_C3P0;
 
-@WebFilter({ "/*" })
+//@WebFilter({ "/*" })
 public class TransactionFilter implements Filter {
 	private static AtomicInteger counter = new AtomicInteger(0);
 	private static ConcurrentHashMap<String, Thread> threadMap = new ConcurrentHashMap<>();
@@ -32,14 +32,6 @@ public class TransactionFilter implements Filter {
 			throws IOException, ServletException {
 		Connection conn = null;
 
-		if (!threadMap.contains(Thread.currentThread())) {
-			threadMap.put(Thread.currentThread().getName(), Thread.currentThread());
-		} else {
-			System.err.println("当前线程重复，当前线程重复，当前线程重复");
-		}
-
-		System.out.println("TransactionFilter执行了: " + counter.incrementAndGet() + "次！~");
-		System.out.println("当前的线程名：" + Thread.currentThread().getName());
 		try {
 			// 获取连接
 			conn = JdbcUtils_C3P0.getConn();
@@ -47,11 +39,11 @@ public class TransactionFilter implements Filter {
 			if (conn == null) {
 				System.out.println("未获取到连接");
 			}
+			
+			conn.setAutoCommit(false);
 			// 绑定至当前线程
 			ContextConn.getInstance().bind(conn);
 			// 开启事务
-			System.out.println("连接是否为空：" + (conn == null));
-			System.out.println(conn);
 			conn.setAutoCommit(false);
 
 			chain.doFilter(request, response);
@@ -85,8 +77,6 @@ public class TransactionFilter implements Filter {
 					e.printStackTrace();
 				}
 			}
-			System.out.println("连接解绑");
-			System.out.println("----------------------------------");
 		}
 
 	}
