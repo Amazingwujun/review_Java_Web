@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 
 import javax.sql.DataSource;
 
+import org.junit.Test;
+
 public class JdbcPool implements DataSource {
 	private static ConcurrentLinkedQueue<Connection> list = new ConcurrentLinkedQueue<>();
 	private static String username;
@@ -24,6 +26,15 @@ public class JdbcPool implements DataSource {
 	private static String url;
 	private static String driver;
 	private static int initSize;
+	
+	@Test
+	public void test() throws SQLException{
+		Connection conn = getConnection();
+		System.out.println(conn);
+		
+		conn.close();
+		System.out.println(conn);
+	}
 
 	static {
 		Properties prop = new Properties();

@@ -5,9 +5,12 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.junit.Test;
+
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class JdbcUtils {
+
 	private static DataSource ds;
 	private static ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
 
@@ -21,12 +24,13 @@ public class JdbcUtils {
 
 	public static Connection getConn() throws SQLException {
 		Connection conn = threadLocal.get();
-
+		
 		if (conn == null) {
 			conn = ds.getConnection();
 			threadLocal.set(conn);
 		}
 
+		System.out.println(conn);
 		return conn;
 	}
 
