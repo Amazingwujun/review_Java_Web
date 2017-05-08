@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cnblogs.lesson_39.JdbcUtils_C3P0;
 
-@WebFilter({ "/*" })
+//@WebFilter({ "/*" })
 public class TransactionFilter implements Filter {
 	private static AtomicInteger counter = new AtomicInteger(0);
 
@@ -39,6 +39,8 @@ public class TransactionFilter implements Filter {
 			if (conn == null) {
 				System.out.println("未获取到连接");
 			}
+			
+			conn.setAutoCommit(false);
 			// 绑定至当前线程
 			ContextConn.getInstance().bind(conn);
 			// 开启事务

@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(
+/*@WebFilter(
 		value = { "/*" }, 
 		initParams = { 
 				@WebInitParam(name = "charset", value = "utf8") 
 		}
-)
+)*/
 public class CharacterEncodingFilter implements Filter {
 	private FilterConfig config;
 	public static final String defaultCharset = "utf8";
@@ -31,7 +31,7 @@ public class CharacterEncodingFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
-		HttpServletRequest request = (HttpServletRequest) req;
+		/*HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 
 		String charset = config.getInitParameter("charset");
@@ -43,8 +43,8 @@ public class CharacterEncodingFilter implements Filter {
 		response.setCharacterEncoding(charset);
 		response.setHeader("content-type", "text/html;charset=" + charset);
 
-		HttpServletRequestWrapper requestWrapper = new HttpRequestParamsTransform(request);
-		chain.doFilter(requestWrapper, response);
+		HttpServletRequestWrapper requestWrapper = new HttpRequestParamsTransform(request);*/
+		chain.doFilter(req, resp);
 	}
 
 	@Override
