@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-@WebFilter("/*")
+//@WebFilter("/*")
 public class WebResouceCacheFilter implements Filter {
 	private static final ConcurrentHashMap<String, byte[]> cacheMap = new ConcurrentHashMap<>();
 

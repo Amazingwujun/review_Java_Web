@@ -19,13 +19,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(
+/*@WebFilter(
 		urlPatterns = ("/*"),
 		initParams = {
 				@WebInitParam(name = "charset", value = "utf8"),
 				@WebInitParam(name = "dirtyWords", value = "d:/敏感词库.txt") 
 		}
-)
+)*/
 public class AdvanceFilter implements Filter {
 	private FilterConfig config;
 	private static final String defaultCharset = "utf8";
