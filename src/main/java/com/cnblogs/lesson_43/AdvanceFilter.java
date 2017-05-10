@@ -86,7 +86,6 @@ public class AdvanceFilter implements Filter {
 			if ("get".equalsIgnoreCase(methodName)) {
 				//tomcat改版后，get方法传的参数用的编码也是UTF8
 				//message = new String(message.getBytes("ISO8859-1"), "utf8");
-				System.out.println(message);
 				message = htmlFilter(message);
 				message = dirtyFilter(message);
 			} else {
