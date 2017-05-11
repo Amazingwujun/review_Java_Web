@@ -6,7 +6,7 @@ import javax.servlet.ServletContextAttributeEvent;
 import javax.servlet.ServletContextAttributeListener;
 import javax.servlet.annotation.WebListener;
 
-@WebListener
+//@WebListener
 public class MyServletContextAttributeListener implements ServletContextAttributeListener {
 
 	@Override

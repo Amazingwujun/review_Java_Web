@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_COLOR_BURNPeer;
+
 /*@WebFilter(
 		urlPatterns = ("/*"),
 		initParams = {
@@ -38,6 +40,8 @@ public class AdvanceFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
+		System.out.println("do");
+		
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 
@@ -50,7 +54,7 @@ public class AdvanceFilter implements Filter {
 		response.setCharacterEncoding(charset);
 		response.setHeader("content-type", "text/html;charset=utf8");
 
-		HttpServletRequestWrapper requestWrapper = new IntegrateRequestFilter(request);
+		IntegrateRequestFilter requestWrapper = new IntegrateRequestFilter(request);
 		chain.doFilter(requestWrapper, response);
 	}
 
@@ -83,9 +87,16 @@ public class AdvanceFilter implements Filter {
 			}
 
 			// 方法为GET
-			if ("get".equalsIgnoreCase(methodName)) {
+			if ("post".equalsIgnoreCase(methodName)) {
 				//tomcat改版后，get方法传的参数用的编码也是UTF8
-				//message = new String(message.getBytes("ISO8859-1"), "utf8");
+				try {
+					System.out.println("请求参数:"+message);
+					message = new String(message.getBytes("ISO8859-1"), "utf8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				System.out.println(message);
 				message = htmlFilter(message);
 				message = dirtyFilter(message);
 			} else {

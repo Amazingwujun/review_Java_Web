@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/servlet/CharsetFilterDemo")
+//@WebServlet("/servlet/CharsetFilterDemo")
 public class CharsetFilterDemo extends HttpServlet {
 
 	/**
