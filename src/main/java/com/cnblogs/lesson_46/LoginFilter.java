@@ -33,7 +33,6 @@ import sun.misc.BASE64Encoder;
 @WebFilter(urlPatterns = { "/*" }, initParams = {
 		@WebInitParam(name = "username", value = "password", description = "用户") })
 public class LoginFilter implements Filter {
-	AtomicReference<Object> ar = new AtomicReference<Object>(new User());
 	
 	
 	/**
@@ -41,7 +40,6 @@ public class LoginFilter implements Filter {
 	 */
 	public LoginFilter() {
 		// TODO Auto-generated constructor stub
-		ar.set(newValue);
 	}
 
 	/**
