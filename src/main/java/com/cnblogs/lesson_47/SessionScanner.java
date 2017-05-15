@@ -1,23 +1,18 @@
 package com.cnblogs.lesson_47;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 @WebListener
-@WebInitParam(name = "time", value = "5")
 public class SessionScanner implements HttpSessionListener, ServletContextListener {
 
 	// 用于存储session的list
@@ -29,8 +24,7 @@ public class SessionScanner implements HttpSessionListener, ServletContextListen
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
-		
-		ConcurrentHashMap<K, V>
+
 		HttpSession session = se.getSession();
 
 		// 加锁
@@ -51,17 +45,30 @@ public class SessionScanner implements HttpSessionListener, ServletContextListen
 		@Override
 		public void run() {
 			// 持有相同的锁
-			
+
 			if (list != null && list.size() > 0) {
 				synchronized (lock) {
-					for (HttpSession session : SessionScanner.this.list) {
+					/*
+					 * for (HttpSession session : SessionScanner.this.list) { //
+					 * 用户最后一次发送session到现在的时间 long time =
+					 * System.currentTimeMillis() -
+					 * session.getLastAccessedTime();
+					 * 
+					 * // 超过五分钟，则移除 if (time > 5 * 1000) { session.invalidate();
+					 * list.remove(session); } }
+					 */
+
+					Iterator<HttpSession> itor = list.iterator();
+
+					while (itor.hasNext()) {
+						HttpSession session = itor.next();
 						// 用户最后一次发送session到现在的时间
 						long time = System.currentTimeMillis() - session.getLastAccessedTime();
 
 						// 超过五分钟，则移除
 						if (time > 5 * 1000) {
 							session.invalidate();
-							list.remove(session);
+							itor.remove();
 						}
 					}
 				}
@@ -89,7 +96,5 @@ public class SessionScanner implements HttpSessionListener, ServletContextListen
 		// TODO Auto-generated method stub
 
 	}
-	
-	
 
 }
