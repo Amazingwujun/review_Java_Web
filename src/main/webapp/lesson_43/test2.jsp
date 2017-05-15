@@ -6,7 +6,7 @@
   </head>
   
   <body>
-       <form action="${pageContext.request.contextPath}/servlet/ServletDemo2" method="get">
+       <form action="${pageContext.request.contextPath}/servlet/ServletDemo2" method="post">
            留言:
            <textarea rows="8" cols="70" name="message">
            <script type="text/javascript">

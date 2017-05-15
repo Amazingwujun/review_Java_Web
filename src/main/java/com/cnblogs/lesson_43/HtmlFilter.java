@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter({ "/*" })
+//@WebFilter({ "/*" })
 public class HtmlFilter implements Filter {
 
 	@Override

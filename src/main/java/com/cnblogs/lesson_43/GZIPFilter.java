@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-@WebFilter("*.jsp")
+//@WebFilter("*.jsp")
 public class GZIPFilter implements Filter {
 
 	@Override
@@ -77,7 +77,8 @@ public class GZIPFilter implements Filter {
 
 		public ByteArrayOutputStream getBout() {
 			if (pw != null) {
-				pw.close();
+				//pw.close();
+				pw.flush();
 			}
 
 			return bout;
@@ -85,8 +86,8 @@ public class GZIPFilter implements Filter {
 
 		@Override
 		public PrintWriter getWriter() throws IOException {
-			// TODO Auto-generated method stub
-			return new PrintWriter(new OutputStreamWriter(bout, this.response.getCharacterEncoding()), true);
+			pw = new PrintWriter(new OutputStreamWriter(bout, this.response.getCharacterEncoding()), true);
+			return pw;
 		}
 
 		class MyServletOutputStream extends ServletOutputStream {
