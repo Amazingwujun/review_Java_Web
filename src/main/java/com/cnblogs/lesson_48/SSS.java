@@ -1,52 +1,34 @@
 package com.cnblogs.lesson_48;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
-import java.net.URL;
-import java.util.Enumeration;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.junit.Test;
-
-@WebServlet("/servlet/SSS")
-public class SSS extends HttpServlet {
-
+@WebServlet(value="/servlet/hha",initParam=@WebInitParam(name="name",value="wujun")	) 
+public class SSS {
+	
 	/**
-	 * 
+	 * 格式如下
 	 */
-	private static final long serialVersionUID = 1L;
-
-	@Test
-	public void tset() throws Exception {
-		Class<SSS> clazz = SSS.class;
-
-		Object tar = clazz.newInstance();
-		
-		Method mt = clazz.getDeclaredMethod("test");
-		
-		mt.setAccessible(false);
-		
-		mt.invoke(tar,null);
-	}
-
-	protected void test() {
-		System.out.println("name");
-	}
-
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Enumeration<URL> urls = Thread.currentThread().getContextClassLoader().getResources("config.zip");
-		System.out.println();
-
-		while (urls.hasMoreElements()) {
-			System.out.println(urls.nextElement());
+	protected void init(Map<String, String> map){
+		for (Entry<String, String> entry : map.entrySet()) {
+			System.out.println("key: "+entry.getKey()+"---"+"value: "+entry.getValue());
 		}
-
+		
 	}
-
+	
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setCharacterEncoding("utf8");
+		resp.addHeader("content-type", "text/html;charset=utf8");
+		resp.getWriter().write("SSS的DOget方法被条用了");
+	}
+	
+	public void say(HttpServletRequest req, HttpServletResponse resp){
+		System.out.println("say() do");
+	}
+	
 }
