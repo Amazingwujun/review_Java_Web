@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/servlet/GZIPtest")
+//@WebServlet("/servlet/GZIPtest")
 public class GZIPtest extends HttpServlet {
 
 	@Override

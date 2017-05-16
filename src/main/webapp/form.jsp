@@ -5,10 +5,11 @@
 <title>Form table</title>
 </head>
 <body>
+	<img alt="tupina" src="${pageContext.request.contextPath }/02.jpg">
 	<form action="${pageContext.request.contextPath }/servlet/DoFormServlet" method="post">
 		<input type="text" name="username"  /></br>
 		<input type="hidden" name="Token" value="${TokenNum }"/>
-		<input type="submit" value="提交" id="submit" onclick="denyDoubleClick()"/>
+		<input type="submit" value="提交" id="submit" onclick="denyDoubleC.lick()"/>
 	</form>
 	<%
 		String s = (String)pageContext.findAttribute("TokenNum");

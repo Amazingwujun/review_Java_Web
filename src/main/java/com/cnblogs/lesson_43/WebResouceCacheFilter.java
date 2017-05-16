@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.util.zip.GZIPOutputStream;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -15,84 +15,78 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.WriteListener;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-
 //@WebFilter("/*")
-public class GZIPFilter implements Filter {
+public class WebResouceCacheFilter implements Filter {
+	private static final ConcurrentHashMap<String, byte[]> cacheMap = new ConcurrentHashMap<>();
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// TODO Auto-generated method stub
-		System.out.println("GZIPFilter start");
+
 	}
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
-		MyResponse myResponse = new MyResponse(resp);
 
-		chain.doFilter(request, myResponse);
+		String uri = req.getRequestURI();
+		byte[] cache = cacheMap.get(uri);
 
-		ByteArrayOutputStream bos = myResponse.getBout();
-		byte[] buff = bos.toByteArray();
-		System.out.println("压缩前的大小：" + buff.length);
+		if (cache != null) {
+			String message = new String(cache, req.getCharacterEncoding());
+			System.out.println(message);
+			resp.getOutputStream().write(cache);
+			return;
+		}
 
-		ByteArrayOutputStream bout = new ByteArrayOutputStream();
-		GZIPOutputStream gout = new GZIPOutputStream(bout);
-		gout.write(buff);
-		gout.close();
-
-		resp.setHeader("content-encoding", "gzip");
-
-		byte results[] = bout.toByteArray();
-		System.out.println("压缩后的大小：" + results.length);
-		response.getOutputStream().write(results);
+		BufferResponse br = new BufferResponse(resp);
+		chain.doFilter(req, br);
+		
+		byte[] resource = br.getBuff();
+		cacheMap.put(uri, resource);
+		response.getOutputStream().write(resource);
+		System.out.println(cacheMap.size());
 	}
 
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-
-	}
-
-	class MyResponse extends HttpServletResponseWrapper {
+	class BufferResponse extends HttpServletResponseWrapper {
 		private HttpServletResponse response;
-		private PrintWriter pw;
 		private ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		private PrintWriter pw;
 
-		public MyResponse(HttpServletResponse response) {
+		public BufferResponse(HttpServletResponse response) {
 			super(response);
 			this.response = response;
 		}
 
 		@Override
-		public ServletOutputStream getOutputStream() throws IOException {
-			// TODO Auto-generated method stub
-			return new MyServletOutputStream(bout);
-		}
-
-		public ByteArrayOutputStream getBout() {
-			if (pw != null) {
-				//pw.close();
-				pw.flush();
-			}
-
-			return bout;
-		}
-
-		@Override
 		public PrintWriter getWriter() throws IOException {
-			pw = new PrintWriter(new OutputStreamWriter(bout, this.response.getCharacterEncoding()));
+			pw = new PrintWriter(new OutputStreamWriter(bout, response.getCharacterEncoding()));
 			return pw;
 		}
+		
+		@Override
+		public ServletOutputStream getOutputStream() throws IOException {
+			return new ServletBout(bout);
+		}
+		
+		public byte[] getBuff(){
+			if(pw!=null){
+				pw.close();
+			}
+			
+			return bout.toByteArray();
+		}		
 
-		class MyServletOutputStream extends ServletOutputStream {
+		class ServletBout extends ServletOutputStream{
 			private ByteArrayOutputStream bout;
-
-			public MyServletOutputStream(ByteArrayOutputStream bout) {
+			
+			public ServletBout(ByteArrayOutputStream bout) {
 				this.bout = bout;
 			}
 
@@ -105,14 +99,22 @@ public class GZIPFilter implements Filter {
 			@Override
 			public void setWriteListener(WriteListener writeListener) {
 				// TODO Auto-generated method stub
-
+				
 			}
 
 			@Override
 			public void write(int b) throws IOException {
 				this.bout.write(b);
 			}
-
+			
 		}
+
 	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
