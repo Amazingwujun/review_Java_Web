@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
+
 //@WebFilter("/*")
 public class GZIPFilter implements Filter {
 
@@ -75,7 +76,8 @@ public class GZIPFilter implements Filter {
 
 		public ByteArrayOutputStream getBout() {
 			if (pw != null) {
-				pw.close();
+				//pw.close();
+				pw.flush();
 			}
 
 			return bout;

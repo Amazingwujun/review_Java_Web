@@ -1,6 +1,7 @@
 package com.cnblogs.lesson_43;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,11 +20,15 @@ public class ServletDemo2 extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String message = req.getParameter("message");
-		resp.getWriter().write(message);
+		PrintWriter out = resp.getWriter();
+		
+		out.write(message);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		doGet(req, resp);
 	}
+	
+	
 }

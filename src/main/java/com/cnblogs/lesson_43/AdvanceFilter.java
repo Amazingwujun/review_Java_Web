@@ -22,10 +22,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_COLOR_BURNPeer;
 
 /*@WebFilter(
-		urlPatterns = ("/*"),
-		initParams = {
+		urlPatterns = ("/*"), 
+		initParams = { 
 				@WebInitParam(name = "charset", value = "utf8"),
-				@WebInitParam(name = "dirtyWords", value = "d:/敏感词库.txt") 
+				//@WebInitParam(name = "dirtyWords", value = "d:/敏感词库.txt") 
 		}
 )*/
 public class AdvanceFilter implements Filter {
@@ -40,8 +40,6 @@ public class AdvanceFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
 			throws IOException, ServletException {
-		System.out.println("do");
-		
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) resp;
 
@@ -88,6 +86,8 @@ public class AdvanceFilter implements Filter {
 
 			// 方法为GET
 			if ("post".equalsIgnoreCase(methodName)) {
+				// tomcat改版后，get方法传的参数用的编码也是UTF8
+				// message = new String(message.getBytes("ISO8859-1"), "utf8");
 				//tomcat改版后，get方法传的参数用的编码也是UTF8
 				try {
 					System.out.println("请求参数:"+message);
@@ -118,6 +118,9 @@ public class AdvanceFilter implements Filter {
 		private String dirtyFilter(String message) {
 			try {
 				List<String> list = getDirtyList();
+				if (list == null) {
+					return message;
+				}
 
 				for (String str : list) {
 					if (message.contains(str)) {
@@ -136,6 +139,9 @@ public class AdvanceFilter implements Filter {
 		private List<String> getDirtyList() throws IOException {
 			List<String> list = new ArrayList<>();
 			String path = config.getInitParameter("dirtyWords");
+			if (path == null) {
+				return null;
+			}
 
 			FileReader fr = new FileReader(path);
 			BufferedReader br = new BufferedReader(fr);

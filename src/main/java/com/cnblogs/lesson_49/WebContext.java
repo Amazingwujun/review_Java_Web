@@ -7,9 +7,14 @@ import javax.servlet.http.HttpSession;
 
 import org.junit.Test;
 
+/**
+ * 将当前用户的request和response保存到当前线程ThreadLocal,
+ * 方便使用。
+ * 
+ */
 public class WebContext {
-	private static ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<>();
-	private static ThreadLocal<HttpServletResponse> responseHolder = new ThreadLocal<>();
+	public static ThreadLocal<HttpServletRequest> requestHolder = new ThreadLocal<>();
+	public static ThreadLocal<HttpServletResponse> responseHolder = new ThreadLocal<>();
 
 	public HttpServletRequest getRequest() {
 		return requestHolder.get();

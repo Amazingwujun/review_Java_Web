@@ -21,7 +21,6 @@ import com.cnblogs.lesson_39.JdbcUtils_C3P0;
 //@WebFilter({ "/*" })
 public class TransactionFilter implements Filter {
 	private static AtomicInteger counter = new AtomicInteger(0);
-	private static ConcurrentHashMap<String, Thread> threadMap = new ConcurrentHashMap<>();
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -34,8 +33,9 @@ public class TransactionFilter implements Filter {
 
 		try {
 			// 获取连接
+
 			conn = JdbcUtils_C3P0.getConn();
-			//conn = JdbcUtils.getConn();
+			// conn = JdbcUtils.getConn();
 			if (conn == null) {
 				System.out.println("未获取到连接");
 			}
