@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class FSFDS
  */
-@WebServlet("/servlet/FSFDS")
+//@WebServlet("/servlet/FSFDS")
 public class FSFDS extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

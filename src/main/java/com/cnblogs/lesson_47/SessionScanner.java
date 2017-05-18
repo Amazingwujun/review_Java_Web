@@ -88,7 +88,7 @@ public class SessionScanner implements HttpSessionListener, ServletContextListen
 	public void contextInitialized(ServletContextEvent sce) {
 		// TODO Auto-generated method stub
 		Timer timer = new Timer();
-		timer.schedule(new MyTask(list), 0, 30 * 1000);
+		timer.schedule(new MyTask(list), 0, 3 * 1000);
 	}
 
 	@Override
