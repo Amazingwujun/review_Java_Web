@@ -20,11 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 
-@WebFilter(
+/*@WebFilter(
 		value = "/*",
 		initParams = {
 				@javax.servlet.annotation.WebInitParam(name = "package", value = "com.cnblogs.lesson_48") 
-				})
+				})*/
 public class WebServletHandleFilter implements Filter {
 	/**
 	 * 用于保存URI与servlet映射的hashmap

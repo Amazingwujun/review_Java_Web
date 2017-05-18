@@ -6,7 +6,7 @@ import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-@WebListener
+//@WebListener
 public class OnlineCountListener implements HttpSessionListener {
 	private static final AtomicLong count = new AtomicLong(0);
 

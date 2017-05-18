@@ -1,10 +1,12 @@
 package com.cnblogs.lesson_47;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -16,61 +18,47 @@ import javax.servlet.http.HttpSessionListener;
 public class SessionScanner implements HttpSessionListener, ServletContextListener {
 
 	// 用于存储session的list
-	private volatile List<HttpSession> list = new ArrayList<>();
+	// private volatile List<HttpSession> list = new ArrayList<>();
+	private ConcurrentHashMap<String, HttpSession> map = new ConcurrentHashMap<>();
+	private AtomicLong count = new AtomicLong(1);
 	// private CopyOnWriteArrayList<HttpSession> list = new
 	// CopyOnWriteArrayList<>();
 	// 对象锁
-	private Object lock = new Object();
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
 
 		HttpSession session = se.getSession();
-
+		String sessionID = session.getId();
 		// 加锁
-		synchronized (lock) {
-			list.add(session);
-		}
-
+		map.putIfAbsent(sessionID, session);
+		System.out.println("sessionID:" + sessionID);
 	}
 
 	class MyTask extends TimerTask {
 
-		private List<HttpSession> list;
+		private ConcurrentHashMap<String, HttpSession> map;
 
-		public MyTask(List<HttpSession> list) {
-			this.list = list;
+		public MyTask(Map<String, HttpSession> map) {
+			this.map = (ConcurrentHashMap<String, HttpSession>) map;
 		}
 
 		@Override
 		public void run() {
-			// 持有相同的锁
+			System.out.println("定时器执行了：" + Thread.currentThread().getName());
+			System.out.println("map是否为空："+map.isEmpty());
+			
+			for (Entry<String, HttpSession> en : map.entrySet()) {
+				HttpSession session = en.getValue();
 
-			if (list != null && list.size() > 0) {
-				synchronized (lock) {
-					/*
-					 * for (HttpSession session : SessionScanner.this.list) { //
-					 * 用户最后一次发送session到现在的时间 long time =
-					 * System.currentTimeMillis() -
-					 * session.getLastAccessedTime();
-					 * 
-					 * // 超过五分钟，则移除 if (time > 5 * 1000) { session.invalidate();
-					 * list.remove(session); } }
-					 */
+				System.out.println("--------------------");
+				System.out.println("等待的Session: " + en.getKey());
+				System.out.println("--------------------");
 
-					Iterator<HttpSession> itor = list.iterator();
-
-					while (itor.hasNext()) {
-						HttpSession session = itor.next();
-						// 用户最后一次发送session到现在的时间
-						long time = System.currentTimeMillis() - session.getLastAccessedTime();
-
-						// 超过五分钟，则移除
-						if (time > 5 * 1000) {
-							session.invalidate();
-							itor.remove();
-						}
-					}
+				if (System.currentTimeMillis() - session.getLastAccessedTime() > 5 * 1000) {
+					session.invalidate();
+					map.remove(en.getKey());
+					System.out.println("sessionID:" + session.getId() + "被销毁");
 				}
 			}
 
@@ -87,8 +75,9 @@ public class SessionScanner implements HttpSessionListener, ServletContextListen
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		// TODO Auto-generated method stub
+		System.out.println("初始化");
 		Timer timer = new Timer();
-		timer.schedule(new MyTask(list), 0, 30 * 1000);
+		timer.schedule(new MyTask(map), 0, 5 * 1000);
 	}
 
 	@Override

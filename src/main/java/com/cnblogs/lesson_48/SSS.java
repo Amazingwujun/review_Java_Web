@@ -1,6 +1,7 @@
 package com.cnblogs.lesson_48;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -27,8 +28,30 @@ public class SSS {
 		resp.getWriter().write("SSS的DOget方法被条用了");
 	}
 	
-	public void say(HttpServletRequest req, HttpServletResponse resp){
+	private void say(HttpServletRequest req, HttpServletResponse resp){
 		System.out.println("say() do");
 	}
 	
+	public void say(){
+		System.out.println("say");
+	}
+	
+	public static void main(String[] args) throws Exception, SecurityException {
+		Method mt = SSS.class.getDeclaredMethod("say", HttpServletRequest.class,HttpServletResponse.class);
+		mt.setAccessible(true);
+		mt.invoke(new SSS(),null,null);
+		
+		
+		/*Method[] mts = SSS.class.getDeclaredMethods();
+		
+		
+		for (Method mt : mts) {
+			System.out.println(mt.getName());
+		}*/
+	}
+	
+}
+
+class AAA extends SSS{
+	public void nani(){};
 }
