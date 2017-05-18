@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>Archetype Created Web Application</display-name>
+  
+  <context-param>
+  	<param-name>tempDirectory</param-name>
+  	<param-value>d:/tempDirectory</param-value>
+  </context-param>
+  
+  <context-param>
+  	<description>一个请求最多可上传(1024*1024*50)byte的数据</description>
+  	<param-name>maxRequestSize</param-name>
+  	<param-value>52428800</param-value>
+  </context-param>
+  	
+  <listener>
+    <listener-class>
+      org.apache.commons.fileupload.servlet.FileCleanerCleanup
+    </listener-class>
+  </listener>
 </web-app>
