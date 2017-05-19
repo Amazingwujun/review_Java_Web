@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(value="/servlet/hha",initParam=@WebInitParam(name="name",value="wujun")	) 
+//@WebServlet(value="/servlet/hha",initParam=@WebInitParam(name="name",value="wujun")	) 
 public class SSS {
 	
 	/**

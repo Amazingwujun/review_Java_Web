@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-@WebListener
+//@WebListener
 public class SessionScanner implements HttpSessionListener, ServletContextListener {
 
 	// 用于存储session的list
