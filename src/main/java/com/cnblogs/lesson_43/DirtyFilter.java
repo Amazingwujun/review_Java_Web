@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
-@WebFilter(urlPatterns = "/*", initParams = { @WebInitParam(value = "d:/dirtyWords.txt", name = "dirtyWords") })
+//@WebFilter(urlPatterns = "/*", initParams = { @WebInitParam(value = "d:/dirtyWords.txt", name = "dirtyWords") })
 public class DirtyFilter implements Filter {
 	private FilterConfig config;
 
