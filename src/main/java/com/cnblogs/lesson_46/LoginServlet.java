@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import sun.misc.BASE64Encoder;
 
-@WebServlet("/servlet/loginServlet_46")
+//@WebServlet("/servlet/loginServlet_46")
 public class LoginServlet extends HttpServlet {
 	
 	/**

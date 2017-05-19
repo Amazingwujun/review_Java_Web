@@ -30,8 +30,8 @@ import sun.misc.BASE64Encoder;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-@WebFilter(urlPatterns = { "/*" }, initParams = {
-		@WebInitParam(name = "username", value = "password", description = "用户") })
+/*@WebFilter(urlPatterns = { "/*" }, initParams = {
+		@WebInitParam(name = "username", value = "password", description = "用户") })*/
 public class LoginFilter implements Filter {
 	
 	

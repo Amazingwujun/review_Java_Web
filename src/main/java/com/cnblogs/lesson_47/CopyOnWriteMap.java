@@ -33,7 +33,6 @@ public abstract class CopyOnWriteMap<K, V> implements Map<K, V>, Serializable {
 			newMap.put(key, value);
 			//让引用指向新的Map
 			map = newMap;
-			
 			return value;
 		}
 	}
