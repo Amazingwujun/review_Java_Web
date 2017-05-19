@@ -3,8 +3,15 @@
   <display-name>Archetype Created Web Application</display-name>
   
   <context-param>
+  <description>upload 临时文件放置位置</description>
   	<param-name>tempDirectory</param-name>
   	<param-value>d:/tempDirectory</param-value>
+  </context-param>
+  
+  <context-param>
+  	<description>upload文件根目录</description>
+  	<param-name>rootDir</param-name>
+  	<param-value>d:/rootDir</param-value>
   </context-param>
   
   <context-param>
@@ -12,10 +19,6 @@
   	<param-name>maxRequestSize</param-name>
   	<param-value>52428800</param-value>
   </context-param>
-  	
-  <listener>
-    <listener-class>
-      org.apache.commons.fileupload.servlet.FileCleanerCleanup
-    </listener-class>
-  </listener>
+  	  
+  
 </web-app>
