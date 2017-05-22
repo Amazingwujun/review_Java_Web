@@ -21,21 +21,17 @@ import org.junit.Test;
 
 import com.cnblogs.lesson_48.Common_utils;
 
-@WebServlet(value = "*.do", loadOnStartup = 0, initParams = { @WebInitParam(name = "package", value = "") })
+@WebServlet(value = "*.do", // 拦截后缀为.do的请求
+		loadOnStartup = 0, // 应用启动即加载
+		initParams = {
+				// controller所在包
+				@WebInitParam(name = "package", value = "com.cnblogs.lesson_49") })
 public class AnnotationHandleServlet extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	@Test
-	public void test() {
-		String s = null;
-		for (String str : s.split(",")) {
-			System.out.println(str);
-		}
-	}
 
 	/**
 	 * 初始化时，将给定包下的符合条件的类加载并添加到 Map<String,Class<?>>
@@ -64,7 +60,7 @@ public class AnnotationHandleServlet extends HttpServlet {
 
 		/**
 		 * 《1》遍历查询被@Controller注解过的类， 《2》获得该类被@RequestMapping注解过的方法，
-		 * 《3》获得注解的URI，将该URI与clazz放入map.
+		 * 《3》获得注解的URI，将该URI与clazz放入map。
 		 */
 		for (Class<?> clazz : set) {
 
@@ -79,7 +75,13 @@ public class AnnotationHandleServlet extends HttpServlet {
 					if (mtAnno != null) {
 						String uri = ((RequestMapping) mtAnno).value();
 
+						if (map.containsKey(uri)) {
+							throw new RuntimeException("uri:\"" + uri + "\",映射地址uri必须唯一");
+						}
+
 						if (!"".equals(uri.trim())) {
+							System.out.println("key:" + uri + "   value: " + clazz.getName());
+
 							map.put(uri, clazz);
 						}
 
@@ -108,16 +110,20 @@ public class AnnotationHandleServlet extends HttpServlet {
 		WebContext.requestHolder.set(req);
 		WebContext.responseHolder.set(resp);
 
+		// 获取方法URL与对应类的映射,如果Map为空，do nothing
 		Map<String, Class<?>> map = (Map<String, Class<?>>) req.getServletContext().getAttribute("requestMapping");
+		if (map == null)
+			return;
 
+		// 用户请求URL
 		String uri = parseUri(req);
-
+		// 反射获取请求方法的类对象
 		Class<?> clazz = map.get(uri);
 		Object obj = BeanUtils.newInstance(clazz);
-
+		// 遍历类方法，
 		Method[] mts = clazz.getDeclaredMethods();
 		Method target = null;
-		
+
 		for (Method mt : mts) {
 			RequestMapping anno = mt.getAnnotation(RequestMapping.class);
 
@@ -126,15 +132,34 @@ public class AnnotationHandleServlet extends HttpServlet {
 				target = mt;
 			}
 		}
-		
+
 		try {
-			Object ob =  target.invoke(obj);
-			
-			
-			
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
+
+			if (target == null) {
+				return;
+			}
+
+			/*
+			 * View view = new View("/lesson_50/fileUpload.jsp");
+			 * view.setDispatcherAction(View.DISPATCHER_FORWARD);
+			 */
+			// invoke this method
+			Object ob = target.invoke(obj);
+
+			if (ob != null) {
+
+				View v = (View) ob;
+				if (v.getDispatcherAction().equals(View.DISPATCHER_FORWARD)) {
+					req.getRequestDispatcher(v.getUri()).forward(req, resp);
+				} else if (v.getDispatcherAction().equals(View.DISPATCHER_REDIRECT)) {
+					resp.sendRedirect(req.getContextPath() + v.getUri());
+				}
+			}
+
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | ServletException
+				| IOException e) {
 			e.printStackTrace();
+
 		}
 
 	}

@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 
+import sun.misc.BASE64Decoder;
+
 @WebServlet("/servlet/DownloadFileList")
 public class DownloadFileList extends HttpServlet {
 
@@ -23,7 +25,26 @@ public class DownloadFileList extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	@Test
+	public void fuhao() throws IOException{
+		BASE64Decoder decoder = new BASE64Decoder();
+		
+		String emailSubject = "=?UTF-8?B?5qyi6L+O5oKo6L+b5YWl5paw54mI5pCc54uQ6Zeq55S16YKu566x77yB?=";
+		String msg = "=?GBK?B?08q8/rLiytQ=?=";
+		String emailContent = "PCFET0NUWVBFIGh0bWwgUFVCTElDICItLy9XM0MvL0RURCBYSFRNTCAxLjAgVHJhbnNpdGlvbmFs"+
+"Ly9FTiIgImh0dHA6Ly93d3cudzMub3JnL1RSL3hodG1sMS9EVEQveGh0bWwxLXRyYW5zaXRpb25h"+
+"bC5kdGQiPgo8aHRtbCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+CjxoZWFk"+
+"Pgo8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUiIGNvbnRlbnQ9InRleHQvaHRtbDsgY2hh"+
+"cnNldD1nYjIzMTIiIC8+Cjx0aXRsZT7mkJzni5Dpl6rnlLXpgq7nrrHmrKLov47mgqg8L3RpdGxl"+
+"Pgo8L2hlYWQ+Cgo8Ym9keSBzdHlsZT0ibWFyZ2luOjAiPgo8aW1nIHNyYz0iIiB3aWR0aD0xIGhl"+
+"aWdodD0xPgo8dGFibGUgd2lkdGg9IjYxNiIgYm9yZGVyPSIwIiBhbGlnbj0iY2VudGVyIiBjZWxs"+
+"cGFkZGluZz0iMCIgY2VsbHNwYWNpbmc9IjMiIGJnY29sb3I9IiNlNGYyZmEiPgogIDx0cj4KICAg"+
+"IDx0ZCA+PHRhYmxlIHdpZHRoPSI2MTAiIGJvcmRlcj0iMCIgYWxpZ249ImNlbnRlciIgY2VsbHBh";
+		System.out.println(new String(decoder.decodeBuffer(emailSubject),"UTF-8"));
+		
+	}
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setHeader("content-type", "text/html;charset=utf8");

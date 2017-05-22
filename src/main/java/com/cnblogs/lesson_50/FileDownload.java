@@ -19,6 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/servlet/FileDownload")
 public class FileDownload extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		List<File> list = (List<File>) req.getSession().getAttribute("fileList");
